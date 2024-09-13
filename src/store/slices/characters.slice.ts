@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 interface InitialState {
   characters: Character[];
-  count: number;
+  pageCount: number;
   page: number;
 }
 
 const initialState: InitialState = {
   characters: [],
-  count: 0,
+  pageCount: 1,
   page: 1,
 };
 
@@ -19,17 +19,13 @@ export const charactersSlice = createSlice({
   reducers: {
     setCharactersData: (state, action) => {
       state.characters = action.payload.character;
-      state.count = action.payload.count;
+      state.pageCount = Math.ceil(action.payload.count / 10);
     },
-    setNextPage: (state) => {
-      state.page += 1;
-    },
-    setPreviousPage: (state) => {
-      state.page -= 1;
+    setPage: (state, action) => {
+      state.page = action.payload.page;
     },
   },
 });
 
-export const { setCharactersData, setNextPage, setPreviousPage } =
-  charactersSlice.actions;
+export const { setCharactersData, setPage } = charactersSlice.actions;
 export default charactersSlice.reducer;
