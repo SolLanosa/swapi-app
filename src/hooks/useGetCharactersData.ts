@@ -1,15 +1,22 @@
 import { getCharactersData } from "@/services/api/api";
 import { setCharactersData } from "@/store/slices/characters.slice";
 
-import { store } from "@/store/store";
+import { useAppDispatch } from "@/store/store";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useGetCharactersData(page: number, character?: string) {
+export default function useGetCharactersData({
+  page,
+  character,
+}: {
+  page?: number;
+  character?: string;
+}) {
+  const dispatch = useAppDispatch();
   const response = useQuery({
-    queryKey: ["charactersData"],
+    queryKey: ["charactersData", page, character],
     queryFn: async () => {
-      const data = await getCharactersData(page, character);
-      store.dispatch(
+      const data = await getCharactersData({ page, character });
+      dispatch(
         setCharactersData({
           character: data.results,
           count: data.count,
@@ -17,7 +24,7 @@ export default function useGetCharactersData(page: number, character?: string) {
       );
       return data;
     },
-    enabled: true,
+    enabled: false,
     refetchOnWindowFocus: false,
   });
 

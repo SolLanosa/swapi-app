@@ -6,6 +6,7 @@ interface InitialState {
   pageCount: number;
   page: number;
   character: Character;
+  searchValue: string | undefined;
 }
 
 const initialState: InitialState = {
@@ -30,6 +31,7 @@ const initialState: InitialState = {
     url: "",
     vehicles: [],
   },
+  searchValue: "",
 };
 
 export const charactersSlice = createSlice({
@@ -46,9 +48,12 @@ export const charactersSlice = createSlice({
     setCharacter: (state, action) => {
       state.character = action.payload.character;
     },
+    setSearchValue: (state, action) => {
+      state.searchValue = action.payload?.searchValue;
+    },
   },
 });
 
-export const { setCharactersData, setPage, setCharacter } =
+export const { setCharactersData, setPage, setCharacter, setSearchValue } =
   charactersSlice.actions;
 export default charactersSlice.reducer;
